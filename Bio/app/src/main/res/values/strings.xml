@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Bio</string>
+    <string name="name">Davi Ramos</string>
+    <string name="auto_fill_hints">classical guitar</string>
+    <string name="my_bio">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        \n\nPraesent ultricies tellus nisl, a pretium lectus feugiat at.
+        Phasellus dictum ultrices ipsum, eu aliquet sem hendrerit ac.
+        Suspendisse eget lacus luctus dolor lobortis ultrices. Sed tempor enim ut dolor placerat, in tempus dolor hendrerit.
+        Etiam non euismod urna, vitae varius erat. Nam cursus commodo hendrerit.
+        Praesent commodo purus vel lectus pellentesque, at mollis sapien finibus.
+        Vestibulum risus nisl, tincidunt quis facilisis at, volutpat id odio.
+        \n\nEtiam volutpat efficitur nisl quis dignissim.
+        Sed vel eros tortor. Vivamus sed efficitur justo.
+        Phasellus ut felis in lorem tristique tempor.
+        Suspendisse malesuada dolor libero, at placerat nisi scelerisque in.
+        Integer ornare posuere magna, in feugiat enim efficitur interdum.
+        Cras diam nunc, cursus eu condimentum vel, sodales ut libero.
+        Sed ac ligula sed sapien posuere molestie eu id dolor.
+        Proin sollicitudin, sem sed placerat imperdiet, elit sapien fringilla nibh, a maximus magna felis non erat.
+        Pellentesque bibendum enim enim. Fusce quis nulla felis.
+        Pellentesque leo erat, scelerisque vitae felis eget, finibus dictum est.
+        Aenean eget erat feugiat, accumsan sem ac, consequat arcu.
+        Vivamus quis arcu a leo ornare pellentesque.
+        Vestibulum a ipsum sodales, auctor leo luctus, accumsan eros.
+        Maecenas convallis ullamcorper rhoncus.
+        Vivamus mollis arcu at diam molestie sodales.
+        Suspendisse eu metus eu ipsum luctus luctus.
+        Aenean imperdiet mauris in urna feugiat fermentum.
+        Phasellus porta malesuada pulvinar. Morbi maximus pellentesque lectus, ut varius ante fermentum sed.
+        Duis semper sed sem eu pretium. Sed tincidunt turpis ac lacus ultricies imperdiet vel non neque.
+        Praesent suscipit lobortis turpis, at malesuada lacus hendrerit at. Pellentesque tempor urna ac cursus euismod.
+        \n\nAliquam tristique ornare turpis at convallis. Quisque laoreet diam vitae eros luctus, ac vestibulum sem auctor.
+
+</string>
+    <string name="hobby_hint_text">Enter your hobbies</string>
+    <string name="done_text">done</string>
+    <string name="image_description">Android robot image</string>
+</resources>
