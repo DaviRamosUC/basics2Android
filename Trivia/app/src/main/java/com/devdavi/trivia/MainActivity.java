@@ -1,10 +1,14 @@
 package com.devdavi.trivia;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.devdavi.trivia.data.Repository;
+import com.devdavi.trivia.model.Question;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new Repository().getQuestions();
+        List<Question> questions = new Repository().getQuestions();
+        Log.d("TAG", "onCreate: "+questions);
     }
 }
