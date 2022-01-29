@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Question> questions = new Repository().getQuestions();
-        Log.d("TAG", "onCreate: "+questions);
+        List<Question> questions = new Repository().getQuestions(questionArrayList -> {
+            Log.d("MAIN", "onCreate: " + questionArrayList);
+        });
+
     }
 }
