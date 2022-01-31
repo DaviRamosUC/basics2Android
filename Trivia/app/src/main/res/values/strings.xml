@@ -9,4 +9,9 @@
     <string name="text_formated">Question: %d/%d</string>
     <string name="correct_answer">Correct!</string>
     <string name="incorrect">Incorrect!</string>
+    <string name="high_score_text">High Score:</string>
+    <string name="your_score_text">Your Score:</string>
+    <string name="actual_scored">Your score: %d</string>
+    <string name="actual_high_score">High Score: %d</string>
+    <string name="previous_button_text">Prev</string>
 </resources>

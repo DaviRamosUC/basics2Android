@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import com.devdavi.trivia.data.Repository;
 import com.devdavi.trivia.databinding.ActivityMainBinding;
 import com.devdavi.trivia.model.Question;
+import com.devdavi.trivia.util.Prefs;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -22,12 +23,20 @@ public class MainActivity extends AppCompatActivity {
     private int currentQuestionIndex = 0;
     List<Question> questionList;
 
+    private int scoreValue = 0;
+    private Prefs prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        prefs = new Prefs(MainActivity.this);
+
+        //Retrieve the currentState
+        currentQuestionIndex = prefs.getState();
 
         questionList = new Repository().getQuestions(questionArrayList -> {
             updateQuestion();
@@ -38,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
             updateQuestion();
         });
 
+        binding.buttonPrevious.setOnClickListener(view -> {
+            if (currentQuestionIndex > 0){
+                currentQuestionIndex--;
+                updateQuestion();
+            }
+        });
+
         binding.buttonTrue.setOnClickListener(view -> {
             checkAnswer(true);
         });
@@ -45,7 +61,14 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonFalse.setOnClickListener(view -> {
             checkAnswer(false);
         });
+        updateHighScore();
+    }
 
+    @Override
+    protected void onPause() {
+        prefs.saveHighestScore(scoreValue);
+        prefs.setState(currentQuestionIndex);
+        super.onPause();
     }
 
     private void checkAnswer(boolean userChoseCorrect) {
@@ -53,21 +76,42 @@ public class MainActivity extends AppCompatActivity {
         int snackMessageId = 0;
         if (userChoseCorrect == answer) {
             fadeAnimation();
-            binding.buttonNext.callOnClick();
+            addPoints();
             snackMessageId = R.string.correct_answer;
         } else {
             snackMessageId = R.string.incorrect;
             shakeAnimation();
+            removePoints();
             updateQuestion();
         }
+        binding.buttonNext.callOnClick();
+        prefs.saveHighestScore(scoreValue);
+        updateHighScore();
         Snackbar.make(binding.cardView, snackMessageId, Snackbar.LENGTH_SHORT)
                 .show();
+    }
+
+    private void updateHighScore(){
+        binding.highScore.setText(String.format(getString(R.string.actual_high_score), prefs.getHighestScore()));
+    }
+
+    private void removePoints() {
+        if (scoreValue >= 100) {
+            scoreValue -= 100;
+        }else{
+            scoreValue = 0;
+        }
+    }
+
+    private void addPoints() {
+        scoreValue += 100;
     }
 
     private void updateQuestion() {
         updateCounter();
         String question = questionList.get(currentQuestionIndex).getQuestion();
         binding.questionTextView.setText(question);
+        binding.actualScore.setText(String.format(getString(R.string.actual_scored), scoreValue));
     }
 
     private void updateCounter() {

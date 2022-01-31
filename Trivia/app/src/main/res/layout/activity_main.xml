@@ -76,7 +76,7 @@
         <Button
             android:id="@+id/button_true"
             style="@style/ButtonStyle"
-            android:layout_width="390dp"
+            android:layout_width="0dp"
             android:layout_height="55dp"
             android:text="@string/true_button"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,9 +90,47 @@
             android:layout_width="wrap_content"
             android:layout_height="55dp"
             android:layout_marginTop="12dp"
+            android:drawableEnd="@android:drawable/ic_media_ff"
             android:text="@string/next_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.886"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button_previous"
+            app:layout_constraintTop_toBottomOf="@+id/button_false" />
+
+        <TextView
+            android:id="@+id/actualScore"
+            style="@style/score_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/your_score_text"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/text_view_out_of"
+            app:layout_constraintStart_toStartOf="@+id/highScore"
+            app:layout_constraintTop_toBottomOf="@+id/highScore" />
+
+        <TextView
+            android:id="@+id/highScore"
+            style="@style/score_style"
+            android:text="@string/high_score_text"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/text_view_out_of"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.817"
+            app:layout_constraintStart_toEndOf="@+id/title_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.675" />
+
+        <Button
+            android:id="@+id/button_previous"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="55dp"
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@android:drawable/ic_media_rew"
+            android:text="@string/previous_button_text"
+            app:layout_constraintEnd_toStartOf="@+id/button_next"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_false" />
 
