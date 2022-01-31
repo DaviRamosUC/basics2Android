@@ -5,10 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.devdavi.contactmanager.R;
 import com.devdavi.contactmanager.model.Contact;
 import com.devdavi.contactmanager.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
@@ -47,6 +51,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         // Insert to row
         db.insert(Util.TABLE_NAME, null, values);
+        Log.d("DB", "addContact: " + "item added");
         db.close();
     }
 
@@ -68,7 +73,66 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
             contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
         }
-
+        db.close();
         return contact;
+    }
+
+    //Get All Contacts
+    public List<Contact> getAllContacts() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        List<Contact> contactList = new ArrayList<>();
+
+        //Select all contacts
+        String selectAll = "SELECT * FROM " + Util.TABLE_NAME;
+        Cursor cursor = db.rawQuery(selectAll, null);
+
+        // loop through our data
+        if (cursor.moveToFirst()) {
+            do {
+                Contact contact = new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+
+                // add contact objects to our list
+                contactList.add(contact);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return contactList;
+    }
+
+    //Update contact
+    public int updateContact(Contact contact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(Util.KEY_NAME, contact.getName());
+        values.put(Util.KEY_PHONE_NUMBER, contact.getPhoneNumber());
+
+        //update the row
+        int idGiven = db.update(Util.TABLE_NAME, values, Util.KEY_ID + "=?", new String[]{String.valueOf(contact.getId())});
+
+        db.close();
+        return idGiven;
+    }
+
+    //Delete single contact
+    public void deleteContact(Contact contact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(Util.TABLE_NAME, Util.KEY_ID + "=?", new String[]{String.valueOf(contact.getId())});
+        db.close();
+    }
+
+    //Count contacts
+    public int countContact(){
+        String countQuery = "SELECT * FROM " + Util.TABLE_NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+
+        db.close();
+        return count;
     }
 }
