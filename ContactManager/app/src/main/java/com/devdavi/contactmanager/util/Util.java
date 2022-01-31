@@ -2,7 +2,7 @@ package com.devdavi.contactmanager.util;
 
 public class Util {
 
-//    Database related items
+    // Database related items
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "contact_db";
     public static final String TABLE_NAME = "contacts";
