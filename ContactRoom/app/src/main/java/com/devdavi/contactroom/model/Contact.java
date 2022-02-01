@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey;
 public class Contact {
 
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
     private int id;
 
     @ColumnInfo(name = "name")
@@ -17,6 +16,7 @@ public class Contact {
 
     @ColumnInfo(name = "occupation")
     private String occupation;
+
 
     public Contact() {
     }
@@ -26,9 +26,22 @@ public class Contact {
         this.occupation = occupation;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
     public int getId() {
         return id;
     }
+
 
     public String getName() {
         return name;
@@ -37,4 +50,5 @@ public class Contact {
     public String getOccupation() {
         return occupation;
     }
+
 }
