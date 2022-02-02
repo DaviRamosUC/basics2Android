@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text);
         FloatingActionButton fab = findViewById(R.id.add_contact_fab);
 
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.append(" - ").append(c.getName()).append(" ").append(c.getOccupation());
                 Log.d("Main", "onCreate: " + c.getName());
             }
-            textView.setText(builder.toString());
         });
 
         fab.setOnClickListener(view -> {
