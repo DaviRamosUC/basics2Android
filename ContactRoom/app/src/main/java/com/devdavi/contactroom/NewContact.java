@@ -7,6 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.devdavi.contactroom.model.Contact;
+import com.devdavi.contactroom.model.ContactViewModel;
 
 public class NewContact extends AppCompatActivity {
     public static final String NAME_REPLY = "name_reply";
@@ -17,6 +22,8 @@ public class NewContact extends AppCompatActivity {
     private EditText enterOccupation;
     private Button saveInfoButton;
 
+    private ContactViewModel contactViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +31,10 @@ public class NewContact extends AppCompatActivity {
         enterName = findViewById(R.id.enter_name);
         enterOccupation = findViewById(R.id.enter_occupation);
         saveInfoButton = findViewById(R.id.save_button);
+
+        contactViewModel = new ViewModelProvider.AndroidViewModelFactory(NewContact.this
+                .getApplication())
+                .create(ContactViewModel.class);
 
         saveInfoButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
@@ -41,5 +52,16 @@ public class NewContact extends AppCompatActivity {
             }
             finish();
         });
+
+        Bundle data = getIntent().getExtras();
+
+        if (data != null){
+            int id = data.getInt(MainActivity.CONTACT_ID);
+            contactViewModel.get(id).observe(this, contact -> {
+                enterName.setText(contact.getName());
+                enterOccupation.setText(contact.getOccupation());
+            });
+        }
+
     }
 }
