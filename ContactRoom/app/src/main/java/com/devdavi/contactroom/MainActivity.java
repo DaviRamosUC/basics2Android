@@ -2,6 +2,7 @@ package com.devdavi.contactroom;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -17,8 +18,9 @@ import com.devdavi.contactroom.model.ContactViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickListener {
     private static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
     private ContactViewModel contactViewModel;
     private TextView textView;
@@ -41,9 +43,8 @@ public class MainActivity extends AppCompatActivity {
                 .create(ContactViewModel.class);
 
         contactViewModel.getAllContacts().observe(this, contacts -> {
-
             // Set up adapter
-            recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, contacts);
+            recyclerViewAdapter = new RecyclerViewAdapter(MainActivity.this, contacts, this);
             recyclerView.setAdapter(recyclerViewAdapter);
         });
 
@@ -65,5 +66,11 @@ public class MainActivity extends AppCompatActivity {
 
             ContactViewModel.insert(contact);
         }
+    }
+
+    @Override
+    public void onContactClick(int position) {
+        Contact contact = Objects.requireNonNull(contactViewModel.allContacts.getValue()).get(position);
+        Log.d("Clicked", "onContactClick: "+ contact.getName());
     }
 }
