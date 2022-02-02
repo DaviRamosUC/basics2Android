@@ -3,6 +3,7 @@ package com.devdavi.contactroom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -12,8 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.devdavi.contactroom.model.Contact;
 import com.devdavi.contactroom.model.ContactViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 public class NewContact extends AppCompatActivity {
+
+    //Constants
     public static final String NAME_REPLY = "name_reply";
     public static final String OCCUPATION_REPLY = "occupation_reply";
 
@@ -21,8 +25,16 @@ public class NewContact extends AppCompatActivity {
     private EditText enterName;
     private EditText enterOccupation;
     private Button saveInfoButton;
+    private Button deleteButton;
+    private Button updateButton;
 
+    //Instance
     private ContactViewModel contactViewModel;
+
+    //Variables
+    private int contactId = 0;
+    private Boolean isEdit = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +47,18 @@ public class NewContact extends AppCompatActivity {
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(NewContact.this
                 .getApplication())
                 .create(ContactViewModel.class);
+
+        if (getIntent().hasExtra(MainActivity.CONTACT_ID)) {
+            contactId = getIntent().getIntExtra(MainActivity.CONTACT_ID, 0);
+
+            contactViewModel.get(contactId).observe(this, contact -> {
+                if (contact != null) {
+                    enterName.setText(contact.getName());
+                    enterOccupation.setText(contact.getOccupation());
+                }
+            });
+            isEdit = true;
+        }
 
         saveInfoButton.setOnClickListener(view -> {
             Intent replyIntent = new Intent();
@@ -53,14 +77,44 @@ public class NewContact extends AppCompatActivity {
             finish();
         });
 
-        Bundle data = getIntent().getExtras();
+        //Update button
+        updateButton = findViewById(R.id.update_button);
+        updateButton.setOnClickListener(view -> {
+            String name = enterName.getText().toString().trim();
+            String occupation = enterOccupation.getText().toString().trim();
 
-        if (data != null){
-            int id = data.getInt(MainActivity.CONTACT_ID);
-            contactViewModel.get(id).observe(this, contact -> {
-                enterName.setText(contact.getName());
-                enterOccupation.setText(contact.getOccupation());
-            });
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
+                Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                Contact contact = new Contact(name, occupation);
+                contact.setId(contactId);
+                ContactViewModel.update(contact);
+                finish();
+            }
+        });
+
+        deleteButton = findViewById(R.id.delete_button);
+        deleteButton.setOnClickListener(view -> {
+            String name = enterName.getText().toString().trim();
+            String occupation = enterOccupation.getText().toString().trim();
+
+            if (TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)) {
+                Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT)
+                        .show();
+            } else {
+                Contact contact = new Contact(name, occupation);
+                contact.setId(contactId);
+                ContactViewModel.delete(contact);
+                finish();
+            }
+        });
+
+        if (isEdit) {
+            saveInfoButton.setVisibility(View.GONE);
+        } else {
+            updateButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
         }
 
     }

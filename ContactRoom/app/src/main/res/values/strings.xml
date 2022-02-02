@@ -7,4 +7,5 @@
     <string name="description_text">Plus button icon</string>
     <string name="update_text">Update</string>
     <string name="delete_text">Delete</string>
+    <string name="deleted_text">Contact deleted with success</string>
 </resources>
