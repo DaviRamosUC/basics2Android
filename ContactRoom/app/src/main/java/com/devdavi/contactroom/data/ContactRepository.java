@@ -1,7 +1,6 @@
 package com.devdavi.contactroom.data;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -21,9 +20,25 @@ public class ContactRepository {
         allContacts = contactDao.getAllContacts();
 
     }
-    public LiveData<List<Contact>> getAllData() { return allContacts; }
+
+    public LiveData<List<Contact>> getAllData() {
+        return allContacts;
+    }
+
     public void insert(Contact contact) {
         ContactRoomDatabase.databaseWriteExecutor.execute(() -> contactDao.insert(contact));
+    }
+
+    public LiveData<Contact> get(int id) {
+        return contactDao.get(id);
+    }
+
+    public void update(Contact contact) {
+        ContactRoomDatabase.databaseWriteExecutor.execute(() -> contactDao.update(contact));
+    }
+
+    public void delete(Contact contact) {
+        ContactRoomDatabase.databaseWriteExecutor.execute(() -> contactDao.delete(contact));
     }
 
 }
