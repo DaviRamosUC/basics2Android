@@ -1,7 +1,6 @@
 package com.bawp.todoister;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.todoister.adapter.OnTodoClickListener;
 import com.bawp.todoister.adapter.ReciclerViewAdapter;
+import com.bawp.todoister.model.SharedViewModel;
 import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     private ReciclerViewAdapter reciclerViewAdapter;
     private int counter = 0;
     BottomSheetFragment bottomSheetFragment;
+    private SharedViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +46,12 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 MainActivity.this.getApplication())
                 .create(TaskViewModel.class);
+
+        sharedViewModel = new ViewModelProvider(this)
+                .get(SharedViewModel.class);
 
         taskViewModel.getAllTasks().observe(MainActivity.this, tasks -> {
             reciclerViewAdapter = new ReciclerViewAdapter(tasks, this);
@@ -87,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     }
 
     @Override
-    public void onTodoClick(int adapterPosition, Task task) {
-        Log.d("Click", "onTodoClick: " + adapterPosition);
+    public void onTodoClick(Task task) {
+        sharedViewModel.selectItem(task);
+        showBottomSheetDialog();
     }
-
     @Override
     public void onTodoRadioButtonClick(Task task) {
         TaskViewModel.delete(task);
