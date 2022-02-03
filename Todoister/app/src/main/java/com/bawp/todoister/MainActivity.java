@@ -1,19 +1,19 @@
 package com.bawp.todoister;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bawp.todoister.adapter.ReciclerViewAdapter;
 import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
 import com.bawp.todoister.model.enums.Priority;
-import com.bawp.todoister.util.TaskRoomDatabase;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "item";
     private TaskViewModel taskViewModel;
+    private RecyclerView recyclerView;
+    private ReciclerViewAdapter reciclerViewAdapter;
+    private int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +34,22 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         taskViewModel = new ViewModelProvider.AndroidViewModelFactory(
                 MainActivity.this.getApplication())
                 .create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(MainActivity.this, tasks -> {
-            for (Task task: tasks){
-                Log.d(TAG, "onCreate: "+task.toString());
-            }
+            reciclerViewAdapter = new ReciclerViewAdapter(tasks);
+            recyclerView.setAdapter(reciclerViewAdapter);
         });
 
         fab.setOnClickListener(view -> {
-            Task task = new Task("Todo", Priority.HIGH, Calendar.getInstance().getTime(),
+            Task task = new Task("Todo " + counter++, Priority.MEDIUM, Calendar.getInstance().getTime(),
                     Calendar.getInstance().getTime(), false);
 
             // Adding the Task
