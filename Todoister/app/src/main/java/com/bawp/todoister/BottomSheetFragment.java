@@ -19,6 +19,7 @@ import com.bawp.todoister.model.SharedViewModel;
 import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
 import com.bawp.todoister.model.enums.Priority;
+import com.bawp.todoister.util.Utils;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
@@ -82,6 +83,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             calendarGroup.setVisibility(
                     calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
             );
+            Utils.hideSoftKeyboard(view1);
         });
 
         calendarView.setOnDateChangeListener((calendarView, year, month, dayOfMonth) -> {
@@ -113,6 +115,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     sharedViewModel.setEdit(false);
                 } else
                     TaskViewModel.insert(myTask);
+                Utils.hideSoftKeyboard(view1);
+                if (this.isVisible()){
+                    this.dismiss();
+                }
             } else {
                 String snackbarText;
                 if (TextUtils.isEmpty(task)) {
@@ -123,7 +129,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                         calendarButton.callOnClick();
                     }
                 }
-                Snackbar.make(Objects.requireNonNull(getDialog()).getWindow().getDecorView(), snackbarText, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(Objects.requireNonNull(getDialog()).getWindow().getDecorView(), snackbarText, Snackbar.LENGTH_LONG)
+                        .show();
             }
         });
 
