@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnTodoClickListen
     public void onTodoClick(Task task) {
         sharedViewModel.selectItem(task);
         showBottomSheetDialog();
+        sharedViewModel.setEdit(true);
     }
     @Override
     public void onTodoRadioButtonClick(Task task) {

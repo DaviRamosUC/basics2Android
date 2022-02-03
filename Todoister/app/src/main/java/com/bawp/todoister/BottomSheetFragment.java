@@ -40,6 +40,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private Date dueDate;
     Calendar calendar = Calendar.getInstance();
     private SharedViewModel sharedViewModel;
+    private boolean isEdit;
 
     public BottomSheetFragment() {
     }
@@ -77,11 +78,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
         sharedViewModel = new ViewModelProvider(requireActivity())
                 .get(SharedViewModel.class);
 
-        if (sharedViewModel.getSelectedItem().getValue() != null){
-            Task task = sharedViewModel.getSelectedItem().getValue();
-            enterTodo.setText(task.getTask());
-        }
-
         calendarButton.setOnClickListener(view1 -> {
             calendarGroup.setVisibility(
                     calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE
@@ -105,10 +101,18 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                         Calendar.getInstance().getTime(),
                         false
                 );
-                TaskViewModel.insert(myTask);
-                // Clear the selections after create the task
-                enterTodo.setText(null);
-                dueDate = null;
+
+                if (isEdit) {
+                    Task updateTask = sharedViewModel.getSelectedItem().getValue();
+                    assert updateTask != null;
+                    updateTask.setTask(task);
+                    updateTask.setDateCreated(Calendar.getInstance().getTime());
+                    updateTask.setPriority(Priority.HIGH);
+                    updateTask.setDueDate(dueDate);
+                    TaskViewModel.update(updateTask);
+                    sharedViewModel.setEdit(false);
+                } else
+                    TaskViewModel.insert(myTask);
             } else {
                 String snackbarText;
                 if (TextUtils.isEmpty(task)) {
@@ -123,6 +127,18 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             }
         });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enterTodo.setText(null);
+        if (sharedViewModel.getSelectedItem().getValue() != null) {
+            isEdit = sharedViewModel.isEdit();
+            Task task = sharedViewModel.getSelectedItem().getValue();
+            enterTodo.setText(task.getTask());
+            dueDate = task.getDueDate();
+        }
     }
 
     @Override
