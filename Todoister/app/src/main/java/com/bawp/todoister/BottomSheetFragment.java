@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
-public class BottomSheetFragment extends BottomSheetDialogFragment {
+public class BottomSheetFragment extends BottomSheetDialogFragment implements View.OnClickListener {
     private EditText enterTodo;
     private ImageButton calendarButton;
     private ImageButton priorityButton;
@@ -60,9 +60,11 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         priorityRadioGroup = view.findViewById(R.id.radioGroup_priority);
 
         Chip todayChip = view.findViewById(R.id.today_chip);
+        todayChip.setOnClickListener(this);
         Chip tomorrowChip = view.findViewById(R.id.tomorrow_chip);
+        tomorrowChip.setOnClickListener(this);
         Chip nextWeekChip = view.findViewById(R.id.next_week_chip);
-
+        nextWeekChip.setOnClickListener(this);
 
         return view;
     }
@@ -94,13 +96,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
                         false
                 );
                 TaskViewModel.insert(myTask);
+                // Clear the selections after create the task
+                enterTodo.setText(null);
+                dueDate = null;
             } else {
                 String snackbarText;
                 if (TextUtils.isEmpty(task)) {
                     snackbarText = "Enter the TODO text";
                 } else {
                     snackbarText = "Chose the due date for this task";
-                    if (calendarGroup.getVisibility()==View.GONE){
+                    if (calendarGroup.getVisibility() == View.GONE) {
                         calendarButton.callOnClick();
                     }
                 }
@@ -108,5 +113,24 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.today_chip:
+                calendar.add(Calendar.DAY_OF_YEAR, 0);
+                dueDate = calendar.getTime();
+                break;
+            case R.id.tomorrow_chip:
+                calendar.add(Calendar.DAY_OF_YEAR, 1);
+                dueDate = calendar.getTime();
+                break;
+            case R.id.next_week_chip:
+                calendar.add(Calendar.DAY_OF_YEAR, 7);
+                dueDate = calendar.getTime();
+                break;
+        }
     }
 }
