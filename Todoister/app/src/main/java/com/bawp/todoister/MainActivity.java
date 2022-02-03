@@ -1,7 +1,7 @@
 package com.bawp.todoister;
 
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bawp.todoister.adapter.OnTodoClickListener;
 import com.bawp.todoister.adapter.ReciclerViewAdapter;
+import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnTodoClickListener {
 
     private static final String TAG = "item";
     private TaskViewModel taskViewModel;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 .create(TaskViewModel.class);
 
         taskViewModel.getAllTasks().observe(MainActivity.this, tasks -> {
-            reciclerViewAdapter = new ReciclerViewAdapter(tasks);
+            reciclerViewAdapter = new ReciclerViewAdapter(tasks, this);
             recyclerView.setAdapter(reciclerViewAdapter);
         });
 
@@ -82,5 +84,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onTodoClick(int adapterPosition, Task task) {
+        Log.d("Click", "onTodoClick: " + adapterPosition);
     }
 }
