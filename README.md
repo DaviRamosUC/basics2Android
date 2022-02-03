@@ -13,7 +13,6 @@
 <!--ts-->
 - [Objetivo](#objetivo)
 - [Tech/Lib](#techlib)
-- [* ROOMDatabase](#-roomdatabase)
 - [Como Usar](#como-usar)
 <!--te-->
 
@@ -31,7 +30,8 @@
 * Java
 * XML
 * SQLite
-* ROOMDatabase
+* Room Database
+
 ---
 
 <a id="como"></a>
