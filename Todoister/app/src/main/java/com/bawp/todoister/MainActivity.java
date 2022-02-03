@@ -1,22 +1,21 @@
 package com.bawp.todoister;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.todoister.adapter.ReciclerViewAdapter;
-import com.bawp.todoister.model.Task;
 import com.bawp.todoister.model.TaskViewModel;
-import com.bawp.todoister.model.enums.Priority;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ReciclerViewAdapter reciclerViewAdapter;
     private int counter = 0;
+    BottomSheetFragment bottomSheetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        bottomSheetFragment = new BottomSheetFragment();
+        ConstraintLayout constraintLayout = findViewById(R.id.bottomSheet);
+        BottomSheetBehavior<ConstraintLayout> bottomSheetBehavior = BottomSheetBehavior.from(constraintLayout);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         recyclerView = findViewById(R.id.recycler_view);
@@ -49,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fab.setOnClickListener(view -> {
-            Task task = new Task("Todo " + counter++, Priority.MEDIUM, Calendar.getInstance().getTime(),
-                    Calendar.getInstance().getTime(), false);
-
-            // Adding the Task
-            TaskViewModel.insert(task);
+            showBottomSheetDialog();
         });
+    }
+
+    private void showBottomSheetDialog() {
+        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
     }
 
     @Override
