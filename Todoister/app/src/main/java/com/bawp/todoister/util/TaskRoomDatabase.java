@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.bawp.todoister.data.TaskDao;
@@ -15,6 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(exportSchema = false, version = 1, entities = Task.class)
+@TypeConverters({Converters.class})
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     public static final int NUMBER_OF_THREADS = 4;

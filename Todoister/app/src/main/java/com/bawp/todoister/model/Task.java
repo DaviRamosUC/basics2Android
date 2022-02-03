@@ -18,6 +18,7 @@ public class Task {
 
     public String task;
 
+
     public Priority priority;
 
     @ColumnInfo(name = "due_date")
@@ -32,8 +33,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(long taskId, String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
-        this.taskId = taskId;
+    public Task(String task, Priority priority, Date dueDate, Date dateCreated, boolean isDone) {
         this.task = task;
         this.priority = priority;
         this.dueDate = dueDate;
