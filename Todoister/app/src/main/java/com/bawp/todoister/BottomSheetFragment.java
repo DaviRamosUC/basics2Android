@@ -2,6 +2,7 @@ package com.bawp.todoister;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
@@ -33,15 +35,17 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     private ImageButton calendarButton;
     private ImageButton priorityButton;
     private RadioGroup priorityRadioGroup;
-    private RadioGroup selectedRadioButton;
-    private int selectedButtonId;
+    private RadioButton selectedRadioButton;
     private ImageButton saveButton;
     private CalendarView calendarView;
     private Group calendarGroup;
     private Date dueDate;
     Calendar calendar = Calendar.getInstance();
     private SharedViewModel sharedViewModel;
+    private int selectedButtonId;
     private boolean isEdit;
+    private Priority priority = Priority.LOW;
+    ;
 
     public BottomSheetFragment() {
     }
@@ -90,7 +94,26 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             calendar.clear();
             calendar.set(year, month, dayOfMonth);
             dueDate = calendar.getTime();
-//            Log.d("CAL", "onViewCreated: ===> month "+ (month + 1)+ ", dayOfMonth "+ dayOfMonth);
+        });
+
+        priorityButton.setOnClickListener(view1 -> {
+            Utils.hideSoftKeyboard(view1);
+            priorityRadioGroup.setVisibility(priorityRadioGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            priorityRadioGroup.setOnCheckedChangeListener((radioGroup, checkedId) -> {
+                if (priorityRadioGroup.getVisibility() == View.VISIBLE) {
+                    selectedButtonId = checkedId;
+                    selectedRadioButton = requireView().findViewById(selectedButtonId);
+                    if (selectedRadioButton.getId() == R.id.radioButton_high) {
+                        priority = Priority.HIGH;
+                    } else if (selectedRadioButton.getId() == R.id.radioButton_med) {
+                        priority = Priority.MEDIUM;
+                    } else if (selectedRadioButton.getId() == R.id.radioButton_low) {
+                        priority = Priority.LOW;
+                    } else {
+                        priority = Priority.LOW;
+                    }
+                }
+            });
         });
 
         saveButton.setOnClickListener(view1 -> {
@@ -98,7 +121,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
             if (!TextUtils.isEmpty(task) && dueDate != null) {
                 Task myTask = new Task(
                         task,
-                        Priority.HIGH,
+                        priority,
                         dueDate,
                         Calendar.getInstance().getTime(),
                         false
@@ -115,8 +138,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
                     sharedViewModel.setEdit(false);
                 } else
                     TaskViewModel.insert(myTask);
+                enterTodo.setText("");
                 Utils.hideSoftKeyboard(view1);
-                if (this.isVisible()){
+                if (this.isVisible()) {
                     this.dismiss();
                 }
             } else {
@@ -139,7 +163,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements Vi
     @Override
     public void onResume() {
         super.onResume();
-        enterTodo.setText(null);
         if (sharedViewModel.getSelectedItem().getValue() != null) {
             isEdit = sharedViewModel.isEdit();
             Task task = sharedViewModel.getSelectedItem().getValue();
