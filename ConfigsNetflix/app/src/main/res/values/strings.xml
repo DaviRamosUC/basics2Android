@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ConfigsNetflix</string>
+    <string name="serie_name">House of cards</string>
+    <string name="seson_text">S1:E2</string>
+    <string name="default_template_text">template text</string>
+    <string name="time_text">01:30</string>
+    <string name="time_end_text">42:20</string>
+</resources>
