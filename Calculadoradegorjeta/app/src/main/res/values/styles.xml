@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text_View_Valores">
+        <item name="android:background">@color/orange_alter</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+</resources>
