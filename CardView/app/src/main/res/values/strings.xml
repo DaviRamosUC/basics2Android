@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CardView</string>
+    <string name="username_text">Username</string>
+    <string name="momento_text">Agora mesmo</string>
+    <string name="comentario_text">#TBT viagem legal!</string>
+    <string name="curtir_text">curtir</string>
+    <string name="comentar_text">Comentar</string>
+    <string name="image_description_text">Default text</string>
+</resources>
