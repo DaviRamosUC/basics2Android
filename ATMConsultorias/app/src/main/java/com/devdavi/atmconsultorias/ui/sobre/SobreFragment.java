@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.devdavi.atmconsultorias.R;
 
+import mehdi.sakout.aboutpage.AboutPage;
+
 public class SobreFragment extends Fragment {
 
     @Override
@@ -21,7 +23,18 @@ public class SobreFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sobre, container, false);
+        return new AboutPage(getContext())
+                .isRTL(false)
+                .setImage(R.drawable.logo)
+                .addGroup("Entre em contato conosco")
+                .addEmail("exemple@gmail.com")
+                .addWebsite("https://mehdisakout.com/")
+                .addFacebook("the.medy")
+                .addTwitter("medyo80")
+                .addYoutube("UCdPQtdWIsg7_pi4mrRu46vA")
+                .addPlayStore("com.ideashower.readitlater.pro")
+                .addGitHub("medyo")
+                .addInstagram("medyo80")
+                .create();
     }
 }
