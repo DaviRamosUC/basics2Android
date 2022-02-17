@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp"
+    tools:context=".fragments.BichosFragment">
+
+    <ImageButton
+        android:id="@+id/imageViewCao"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/cao"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewLeao"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewGato"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,DuplicateSpeakableTextCheck"
+        style="@style/animaisStyle" />
+
+    <ImageButton
+        android:id="@+id/imageViewGato"
+        style="@style/animaisStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/gato"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCao"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewCao"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/imageViewLeao"
+        style="@style/animaisStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/leao"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewMacaco"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewMacaco"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <ImageButton
+        android:id="@+id/imageViewMacaco"
+        style="@style/animaisStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/macaco"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewVaca"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewLeao"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewGato"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/imageViewOvelha"
+        style="@style/animaisStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ovelha"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewVaca"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewVaca"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/imageViewVaca"
+        style="@style/animaisStyle"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@null"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/vaca"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageViewOvelha"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewMacaco"
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
